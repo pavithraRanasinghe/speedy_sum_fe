@@ -1,0 +1,52 @@
+.title{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin: auto;
+    position: relative;
+    top: 20vh;
+    font-weight: bolder;
+    font-size: 80px;
+    letter-spacing: 30px;
+}
+.subTitle{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 20vh;
+    font-size: 25px;
+}
+.btn_group{
+    position: relative;
+    left: 10vw;
+    top: 20vh;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 20vw;
+}
+.textArea{
+    margin: auto;
+    position: relative;
+    top: 20vh;
+    width: 80%;
+    border: 2px solid black;
+    border-radius: 12px;
+}
+.button_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sum_btn{
+    position: relative;
+    top: 22vh;
+    width: 80%;
+}
+.result_label{
+    position: relative;
+    top: 22vh;
+    font-size: 20px;
+    font-weight: bold;
+    left: 10vw;
+    margin-bottom: 3vh;
+}
