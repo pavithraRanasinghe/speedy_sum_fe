@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./css/Home.css";
 import {
+  Navbar,
+  Container,
   Form,
   FloatingLabel,
   Button,
@@ -18,6 +20,18 @@ const Home = () => {
   ];
   return (
     <>
+      <Navbar className="bg-body-tertiary">
+        <Container>
+          <Navbar.Brand href="#">SPEEDY SUM</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            {/* <Navbar.Text>
+              Welcome : <a href="#login">Mark Otto</a>
+            </Navbar.Text> */}
+            <Button>Register</Button>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
       <h1 className="title">SPEEDY SUM</h1>
       <p className="subTitle">
         Speedy Sum is for people who need to do something new, creative
