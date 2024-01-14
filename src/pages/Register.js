@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./css/Register.css";
+import * as Constants from './../common/Constants'
+import request from './../common/APIManager'
+import { getUser, setUser } from "../common/PersistanceManager";
 
 const Register = () => {
   const navigate = useNavigate();
-  const params = useParams();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -23,7 +27,7 @@ const Register = () => {
   const [isLastNameValid, setIsLastNameValid] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPassworValid] = useState(true);
-  const [isTypeValid, setTypeValid] = useState(true);
+  const [isTypeValid, setIsTypeValid] = useState(true);
   const [isPasswordLengthValid, setIsPassworLengthValid] = useState(true);
   const [isRePasswordValid, setIsRePassworValid] = useState(true);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,6 +48,10 @@ const Register = () => {
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
+
+  const handleTypeChange = event =>{
+    setType(event.target.value)
+  }
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -72,6 +80,12 @@ const Register = () => {
     } else {
       setIsLastNameValid(true);
     }
+    if (type.trim() === "") {
+      setIsTypeValid(false);
+      return;
+    } else {
+      setIsTypeValid(true);
+    }
     if (email.trim() === "" || !emailRegex.test(email)) {
       setIsEmailValid(false);
       return;
@@ -90,26 +104,48 @@ const Register = () => {
     } else {
       setIsRePassworValid(true);
     }
-    if (type.trim() === "") {
-      setTypeValid(false);
-      return;
-    } else {
-      setTypeValid(true);
-    }
     if (password !== repassword) {
-      // toast.error("Password doesn't match");
+      toast.error("Password doesn't match");
       return;
     }
+
+    register();
   };
 
-  const onCheck = (event) => {
-    setIsChecked(event.target.checked);
+
+  const register = () => {
+    const url = "user";
+    const body = JSON.stringify({
+      id:1,
+      name: firstName +" "+ lastName,
+      email: email,
+      type: type,
+      password: password,
+    });
+    setLoading(true);
+    console.log('BODY : ', body);
+    request(url, Constants.POST, body)
+      .then((response) => {
+        toast.success("User registration complete")
+        const user = getUser();
+        if(!user)
+          setUser(response);
+        clearField();
+        navigate('/')
+      })
+      .catch((error) => {
+        toast.error("Registration not complete");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const clearField = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
+    setType("")
     setPassword("");
     setRepassword("");
   };
@@ -181,11 +217,11 @@ const Register = () => {
             <Form.Control
               type="text"
               placeholder="type"
-              value={email}
-              onChange={handleEmailChange}
+              value={type}
+              onChange={handleTypeChange}
             />
-            {!isEmailValid && (
-              <p className="invalidText">Please enter valid email</p>
+            {!isTypeValid && (
+              <p className="invalidText">Please enter valid occupation</p>
             )}
           </FloatingLabel>
           <FloatingLabel
@@ -225,7 +261,7 @@ const Register = () => {
           </FloatingLabel>
 
           <div className="wrapper">
-            <Button disabled={!isChecked} className="register-button">
+            <Button disabled={!isChecked} className="register-button" onClick={handleRegister}>
               REGISTER
             </Button>
           </div>
@@ -238,6 +274,7 @@ const Register = () => {
           </p>
         </Form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
