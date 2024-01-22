@@ -50,3 +50,10 @@
     left: 10vw;
     margin-bottom: 3vh;
 }
+.slider_container{
+    position: relative;
+    top: 20vh;
+    left: 7vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
