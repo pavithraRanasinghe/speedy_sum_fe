@@ -8,6 +8,7 @@ import "./css/Register.css";
 import * as Constants from './../common/Constants'
 import request from './../common/APIManager'
 import { getUser, removeUser, setUser } from "../common/PersistanceManager";
+import Loader from "../components/Loader";
 
 const Register = () => {
   const navigate = useNavigate();

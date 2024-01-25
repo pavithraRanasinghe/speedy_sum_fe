@@ -31,8 +31,6 @@ const Home = () => {
   const [minLength, setMinLength] = useState(50);
   const [maxLength, setMaxLength] = useState(500);
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const radios = [
     { name: "TEXT", value: "0" },
@@ -127,7 +125,7 @@ const Home = () => {
       </Navbar>
       <h1 className="title">SPEEDY SUM</h1>
       <p className="subTitle">
-        Speedy Sum is for people who need to do something new, creative
+        Speedy Sum is for people who need to do something new & creative
       </p>
       <Row>
         <Col>
