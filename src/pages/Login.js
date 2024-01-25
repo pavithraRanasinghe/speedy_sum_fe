@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FloatingLabel, Form, Button } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./css/Login.css";
 import * as Constants from './../common/Constants'
 import request from './../common/APIManager'
-import { getUser, setUser } from "../common/PersistanceManager";
+import { getUser, removeUser, setUser } from "../common/PersistanceManager";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -16,6 +16,13 @@ const LogIn = () => {
 
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPassworValid] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(()=>{
+    if(getUser()){
+      removeUser()
+    }
+  }, [])
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -43,6 +50,7 @@ const LogIn = () => {
   }
 
   const login = () => {
+    setLoading(true)
     const url = "user/login";
     const body = JSON.stringify({
       username: username,
@@ -60,18 +68,16 @@ const LogIn = () => {
         toast.error("Login Failed");
       })
       .finally(() => {
-        // setLoading(false);
+        setLoading(false);
       });
   };
 
   return (
     <div>
       <div className="login-container">
-        {/* <img src={logoName} alt="Profile" className="logo_name" /> */}
 
         <h2 className="welcome">WELCOME BACK</h2>
         <div className="logo">
-          {/* <img src={logo} alt="Profile" className="profile_logo" /> */}
         </div>
         <Form className="m-3" onSubmit={handleLogIn}>
           <FloatingLabel
@@ -118,16 +124,10 @@ const LogIn = () => {
               Register
             </Link>
           </p>
-          <p className="registerLink">
-            Forgot Password?
-            {/* <Link to={"/reset-password"} style={{ textDecoration: "none" }}>
-              {" "}
-              Reset
-            </Link> */}
-          </p>
         </Form>
       </div>
       <ToastContainer />
+      {isLoading && <Loader />}
     </div>
   );
 };

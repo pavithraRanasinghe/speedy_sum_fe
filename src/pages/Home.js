@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/Home.css";
 import {
   Navbar,
@@ -19,6 +19,7 @@ import request from "./../common/APIManager";
 import MultiRangeSlider from "../components/MultiRangeSlider";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
+import { getUser } from "../common/PersistanceManager";
 
 const Home = () => {
   const [radioValue, setRadioValue] = useState("0");
@@ -30,6 +31,7 @@ const Home = () => {
   const [minLength, setMinLength] = useState(50);
   const [maxLength, setMaxLength] = useState(500);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const radios = [
@@ -46,6 +48,7 @@ const Home = () => {
   };
 
   const onSummarize = () => {
+    const userId = getUser() ? getUser().id : 0;
     const url = "sum";
     if (radioValue === "0") {
       if (source == "") {
@@ -56,7 +59,9 @@ const Home = () => {
         text: source,
         min: minLength,
         max: maxLength,
+        user: userId
       });
+      console.log(body)
       request(url + "/text", Constants.POST, body)
         .then((res) => {
           setSummarizeText(res.summary);
@@ -78,6 +83,7 @@ const Home = () => {
         text: webPageLink,
         min: minLength,
         max: maxLength,
+        user: userId
       });
       request(url + "/link", Constants.POST, body)
         .then((res) => {
@@ -108,12 +114,14 @@ const Home = () => {
           <Navbar.Brand href="#">SPEEDY SUM</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            {/* <Navbar.Text>
-              Welcome : <a href="#login">Mark Otto</a>
-            </Navbar.Text> */}
-            <Link to="/register">
+            {getUser() !== null && (
+              <Navbar.Text>
+                Welcome : {getUser().name}
+              </Navbar.Text>
+            )}
+            {getUser() === null && (<Link to="/register">
               <Button>Register</Button>
-            </Link>
+            </Link>)}
           </Navbar.Collapse>
         </Container>
       </Navbar>

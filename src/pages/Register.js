@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, FloatingLabel, Form, Row } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./css/Register.css";
 import * as Constants from './../common/Constants'
 import request from './../common/APIManager'
-import { getUser, setUser } from "../common/PersistanceManager";
+import { getUser, removeUser, setUser } from "../common/PersistanceManager";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -31,6 +30,12 @@ const Register = () => {
   const [isPasswordLengthValid, setIsPassworLengthValid] = useState(true);
   const [isRePasswordValid, setIsRePassworValid] = useState(true);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  useEffect(()=>{
+    if(getUser()){
+      removeUser()
+    }
+  }, [])
 
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
@@ -115,15 +120,15 @@ const Register = () => {
 
   const register = () => {
     const url = "user";
+    const userId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1;
     const body = JSON.stringify({
-      id:1,
+      id: userId,
       name: firstName +" "+ lastName,
       email: email,
       type: type,
       password: password,
     });
     setLoading(true);
-    console.log('BODY : ', body);
     request(url, Constants.POST, body)
       .then((response) => {
         toast.success("User registration complete")
@@ -153,7 +158,6 @@ const Register = () => {
   return (
     <div>
       <div className="register-container">
-        {/* <img src={logoName} alt="Profile" className="logo_name" /> */}
 
         <h2 className="welcome">Register New Account</h2>
 
@@ -275,6 +279,7 @@ const Register = () => {
         </Form>
       </div>
       <ToastContainer />
+      {isLoading && <Loader />}
     </div>
   );
 };

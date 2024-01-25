@@ -2,7 +2,7 @@
 export const BASE_URL = "http://localhost:8000/";
 
 //Local Storage Keys
-export const USER = "user";
+export const USER = "speed_user";
 
 //Http Methods
 export const POST = "POST";

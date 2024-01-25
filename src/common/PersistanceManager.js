@@ -19,7 +19,7 @@ export const getUser = () => {
   }
 };
 
-export const removeUser = async (user) => {
+export const removeUser = async () => {
   try {
     localStorage.removeItem(Constants.USER);
   } catch (e) {
