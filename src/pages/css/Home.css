@@ -4,7 +4,7 @@
     align-self: center;
     margin: auto;
     position: relative;
-    top: 20vh;
+    top: 15vh;
     font-weight: bolder;
     font-size: 80px;
     letter-spacing: 30px;
@@ -13,13 +13,13 @@
     display: flex;
     justify-content: center;
     position: relative;
-    top: 20vh;
+    top: 15vh;
     font-size: 25px;
 }
 .btn_group{
     position: relative;
     left: 10vw;
-    top: 20vh;
+    top: 15vh;
     margin-top: 20px;
     margin-bottom: 20px;
     width: 20vw;
@@ -27,7 +27,7 @@
 .textArea{
     margin: auto;
     position: relative;
-    top: 20vh;
+    top: 15vh;
     width: 80%;
     border: 2px solid black;
     border-radius: 12px;
@@ -39,12 +39,12 @@
 }
 .sum_btn{
     position: relative;
-    top: 22vh;
+    top: 17vh;
     width: 80%;
 }
 .result_label{
     position: relative;
-    top: 22vh;
+    top: 17vh;
     font-size: 20px;
     font-weight: bold;
     left: 10vw;
@@ -52,8 +52,40 @@
 }
 .slider_container{
     position: relative;
-    top: 20vh;
-    left: 7vw;
+    top: 15vh;
+    left: 9vw;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+.reset_btn{
+    position: relative;
+    top: 15vh;
+    left: 35vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: end;
+}
+.tag-label{
+    position: relative;
+    top: 17vh;
+    font-size: 20px;
+    font-weight: bold;
+    left: 10vw;
+}
+.key-list{
+    position: relative;
+    top: 17vh;
+    font-size: 20px;
+    left: 10vw;
+    margin-bottom: 12px;
+}
+.tag{
+    border: 2px solid black;
+    border-radius: 12px;
+    font-size: 12px;
+    padding: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 12px;
 }
