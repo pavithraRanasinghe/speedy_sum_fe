@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./css/Home.css";
 import {
   Navbar,
@@ -11,6 +11,8 @@ import {
   ToggleButton,
   Row,
   Col,
+  Offcanvas,
+  ListGroup,
 } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,6 +34,7 @@ const Home = () => {
   const [minLength, setMinLength] = useState(50);
   const [maxLength, setMaxLength] = useState(500);
   const [isLoading, setIsLoading] = useState(false);
+  const [show, setShow] = useState(false);
 
   const radios = [
     { name: "TEXT", value: "0" },
@@ -50,7 +53,7 @@ const Home = () => {
     const userId = getUser() ? getUser().id : 0;
     const url = "sum";
     if (radioValue === "0") {
-      if (source == "") {
+      if (source === "") {
         return;
       }
       setIsLoading(true);
@@ -74,7 +77,7 @@ const Home = () => {
           setIsLoading(false);
         });
     } else {
-      if (webPageLink == "") {
+      if (webPageLink === "") {
         return;
       }
       setIsLoading(true);
@@ -106,6 +109,12 @@ const Home = () => {
     setWebPageLink("");
   };
 
+  const handleClose = () => setShow(false);
+
+  const onHistory = () => {
+    setShow(true);
+  };
+
   return (
     <>
       <Navbar className="bg-body-tertiary">
@@ -113,7 +122,7 @@ const Home = () => {
           <Navbar.Brand href="#">SPEEDY SUM</Navbar.Brand>
           <Navbar.Toggle />
           <Nav className="me-auto">
-            <Nav.Link href="/history">History</Nav.Link>
+            <Nav.Link onClick={onHistory}>History</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
             {getUser() !== null && (
@@ -127,6 +136,16 @@ const Home = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>History</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <ListGroup>
+            <ListGroup.Item>Cras justo odio</ListGroup.Item>
+          </ListGroup>
+        </Offcanvas.Body>
+      </Offcanvas>
       <h1 className="title">SPEEDY SUM</h1>
       <p className="subTitle">
         Speedy Sum is for people who need to do something new & creative

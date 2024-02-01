@@ -64,7 +64,6 @@
     margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
-    justify-content: end;
 }
 .tag-label{
     position: relative;
@@ -88,4 +87,7 @@
     padding-left: 8px;
     padding-right: 8px;
     margin-right: 12px;
+}
+.history-item{
+    width: 100%;
 }
