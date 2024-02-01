@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./css/Home.css";
 import {
   Navbar,
+  Nav,
   Container,
   Form,
   FloatingLabel,
@@ -57,9 +58,9 @@ const Home = () => {
         text: source,
         min: minLength,
         max: maxLength,
-        user: userId
+        user: userId,
       });
-      console.log(body)
+      console.log(body);
       request(url + "/text", Constants.POST, body)
         .then((res) => {
           setSummarizeText(res.summary);
@@ -81,7 +82,7 @@ const Home = () => {
         text: webPageLink,
         min: minLength,
         max: maxLength,
-        user: userId
+        user: userId,
       });
       request(url + "/link", Constants.POST, body)
         .then((res) => {
@@ -111,15 +112,18 @@ const Home = () => {
         <Container>
           <Navbar.Brand href="#">SPEEDY SUM</Navbar.Brand>
           <Navbar.Toggle />
+          <Nav className="me-auto">
+            <Nav.Link href="/history">History</Nav.Link>
+          </Nav>
           <Navbar.Collapse className="justify-content-end">
             {getUser() !== null && (
-              <Navbar.Text>
-                Welcome : {getUser().name}
-              </Navbar.Text>
+              <Navbar.Text>Welcome : {getUser().name}</Navbar.Text>
             )}
-            {getUser() === null && (<Link to="/register">
-              <Button>Register</Button>
-            </Link>)}
+            {getUser() === null && (
+              <Link to="/register">
+                <Button>Register</Button>
+              </Link>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
