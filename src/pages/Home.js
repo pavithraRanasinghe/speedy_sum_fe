@@ -56,8 +56,8 @@ const Home = () => {
     if (radioValue === "0") {
       if (source === "") {
         return;
-      }else if(source.length < 100){
-        toast.warn('Article is too short')
+      } else if (source.length < 100) {
+        toast.warn("Article is too short");
         return;
       }
       setIsLoading(true);
@@ -67,7 +67,7 @@ const Home = () => {
         max: maxLength,
         user: userId,
       });
-      console.log('BODY : ', )
+      console.log("BODY : ");
       request(url + "/text", Constants.POST, body)
         .then((res) => {
           setSummarizeText(res.summary);
@@ -128,18 +128,18 @@ const Home = () => {
     setShow(true);
   };
 
-  const onHistoryLink = (data)=>{
+  const onHistoryLink = (data) => {
     setWebPageLink(data.data);
-    setRadioValue('1');
+    setRadioValue("1");
     onSummarize();
     handleClose();
-  }
-  const onHistoryText = (data)=>{
+  };
+  const onHistoryText = (data) => {
     setSource(data.data);
-    setRadioValue('0');
+    setRadioValue("0");
     onSummarize();
     handleClose();
-  }
+  };
 
   return (
     <>
@@ -148,7 +148,9 @@ const Home = () => {
           <Navbar.Brand href="#">SPEEDY SUM</Navbar.Brand>
           <Navbar.Toggle />
           <Nav className="me-auto">
-            <Nav.Link onClick={onHistory}>History</Nav.Link>
+            {getUser() !== null && (
+              <Nav.Link onClick={onHistory}>History</Nav.Link>
+            )}
           </Nav>
           <Navbar.Collapse className="justify-content-end">
             {getUser() !== null && (
@@ -170,12 +172,20 @@ const Home = () => {
           <ListGroup>
             {history.map((data, index) =>
               data.type === "LINK" ? (
-                <ListGroup.Item action onClick={() => onHistoryLink(data)} key={index}>
-                  {data.data.replace(/\.com\/.*/, '.com...')}
+                <ListGroup.Item
+                  action
+                  onClick={() => onHistoryLink(data)}
+                  key={index}
+                >
+                  {data.data.replace(/\.com\/.*/, ".com...")}
                 </ListGroup.Item>
               ) : (
-                <ListGroup.Item action onClick={() => onHistoryText(data)} key={index}>
-                  {data.data.substring(0, 35) + '...'}
+                <ListGroup.Item
+                  action
+                  onClick={() => onHistoryText(data)}
+                  key={index}
+                >
+                  {data.data.substring(0, 35) + "..."}
                 </ListGroup.Item>
               )
             )}
