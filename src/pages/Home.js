@@ -35,6 +35,7 @@ const Home = () => {
   const [maxLength, setMaxLength] = useState(500);
   const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [history, setHistory] = useState([]);
 
   const radios = [
     { name: "TEXT", value: "0" },
@@ -55,6 +56,9 @@ const Home = () => {
     if (radioValue === "0") {
       if (source === "") {
         return;
+      }else if(source.length < 100){
+        toast.warn('Article is too short')
+        return;
       }
       setIsLoading(true);
       const body = JSON.stringify({
@@ -63,7 +67,7 @@ const Home = () => {
         max: maxLength,
         user: userId,
       });
-      console.log(body);
+      console.log('BODY : ', )
       request(url + "/text", Constants.POST, body)
         .then((res) => {
           setSummarizeText(res.summary);
@@ -111,9 +115,31 @@ const Home = () => {
 
   const handleClose = () => setShow(false);
 
-  const onHistory = () => {
+  const onHistory = async () => {
+    const user = getUser();
+    const url = "sum/history/";
+    await request(url + user.id, Constants.GET)
+      .then((res) => {
+        setHistory(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setShow(true);
   };
+
+  const onHistoryLink = (data)=>{
+    setWebPageLink(data.data);
+    setRadioValue('1');
+    onSummarize();
+    handleClose();
+  }
+  const onHistoryText = (data)=>{
+    setSource(data.data);
+    setRadioValue('0');
+    onSummarize();
+    handleClose();
+  }
 
   return (
     <>
@@ -142,7 +168,17 @@ const Home = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ListGroup>
-            <ListGroup.Item>Cras justo odio</ListGroup.Item>
+            {history.map((data, index) =>
+              data.type === "LINK" ? (
+                <ListGroup.Item action onClick={() => onHistoryLink(data)} key={index}>
+                  {data.data.replace(/\.com\/.*/, '.com...')}
+                </ListGroup.Item>
+              ) : (
+                <ListGroup.Item action onClick={() => onHistoryText(data)} key={index}>
+                  {data.data.substring(0, 35) + '...'}
+                </ListGroup.Item>
+              )
+            )}
           </ListGroup>
         </Offcanvas.Body>
       </Offcanvas>
@@ -230,7 +266,7 @@ const Home = () => {
                   <ButtonGroup>
                     {keyPhrases.map((key, index) => (
                       <div key={index} className="tag">
-                        {key}
+                        {key.split(" ").join("_")}
                       </div>
                     ))}
                   </ButtonGroup>
