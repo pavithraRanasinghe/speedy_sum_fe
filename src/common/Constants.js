@@ -1,5 +1,6 @@
 // BASE URL
-export const BASE_URL = "http://localhost:8000/";
+// export const BASE_URL = "http://localhost:8000/";
+export const BASE_URL = "http://34.229.255.67/";
 
 //Local Storage Keys
 export const USER = "speed_user";
